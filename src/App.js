@@ -8,10 +8,9 @@ function App() {
 
   return (
     <div className="App">
-        <SearchBar 
+        {<SearchBar 
           placeholder={"Search for a song"}
-          onChange={(e) => {keyword = e}}
-        />
+        />}
     </div>
   );
 }
