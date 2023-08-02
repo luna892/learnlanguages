@@ -25,3 +25,12 @@ code {
   display:flex;
   justify-content: center;
 }
+
+.display-lyrics {
+  display:flex;
+  width: 400px;
+  height: 400px;
+  text-align: left;
+  background-color:white;
+  white-space: pre-wrap;
+}
