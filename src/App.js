@@ -1,35 +1,63 @@
+import React from 'react'
 import './App.css';
-import SearchBar from './components/SearchBar';
 import EmbeddedYouTube from './components/EmbeddedYouTube';
-import TranslateText from './components/TranslateText';
 import DisplayLyrics from './components/DisplayLyrics';
+import Selector from './components/Selector';
+import spanishSongs from './LyricModels/SpanishSongs';
 
-function App() {
+class App extends React.Component {
+  constructor(props) {
+    super(props)
 
-  const sampleLyrics = "Yeah-yeah-yeah-yeah-yeah-yeah, ey\n"+
-  "En la guagua se quedó el olor\n"+
-  "De tu perfume\n"+
-  "Tú ere' una bellaca, yo soy un bellaco\n"+
-  "Eso e' lo que no' une\n"+
-  "Ella sabe que está buenota\n"
+    let options = this.getOptions()
 
-  return (
-    <div className="App">
+    this.state = {
+      options: options,
+      currentOption: {}
+    }
+  }
 
-        {<SearchBar 
-          placeholder={"Search for a song"}/>}
+  getOptions() {
+    let options = []
 
-        {<EmbeddedYouTube
-          embedId={"saGYMhApaH8"}/>}
+    for (let i = 0; i < spanishSongs.length; i++) {
+      const spanishSong = spanishSongs[i];
+      let option = {
+        value: spanishSong.embedId,
+        label: spanishSong.artist + " - " + spanishSong.name,
+        embedId: spanishSong.embedId,
+        foreignLyrics: spanishSong.foreignLyrics,
+        englishLyrics: spanishSong.englishLyrics
+      }
 
-        {<DisplayLyrics
-          lyrics={sampleLyrics}/>}
+      options.push(option)
+    }
 
-        {<TranslateText
-          lyrics={sampleLyrics}/>}
+    return options
+  }
 
-    </div>
-  );
+  render() {
+    const {options, currentOption} = this.state
+
+    return (
+      <div className="App">
+
+        {<Selector
+          options={options}
+          setCurrentOption={(option) => this.setState({currentOption: option})}/>}
+
+        <div className="youtube-lyrics">
+          {<EmbeddedYouTube
+            embedId={currentOption ? currentOption.embedId : ''}/>}
+
+          {<DisplayLyrics
+            foreignLyrics={currentOption ? currentOption.foreignLyrics : ''}
+            englishLyrics={currentOption ? currentOption.englishLyrics : ''}/>}
+        </div>
+
+      </div>
+    )
+  }
 }
 
 export default App;

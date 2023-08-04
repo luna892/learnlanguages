@@ -24,12 +24,18 @@ code {
 .App {
   display:flex;
   justify-content: center;
+  flex-direction: column;
+}
+
+.youtube-lyrics {
+  display: flex;
 }
 
 .display-lyrics {
   display:flex;
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  height: 480px;
+  overflow-y: scroll;
   text-align: left;
   background-color:white;
   white-space: pre-wrap;
