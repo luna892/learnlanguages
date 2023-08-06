@@ -13,6 +13,7 @@ class App extends React.Component {
 
     this.state = {
       options: options,
+      leadingLanguage: 'English',
       currentOption: {}
     }
   }
@@ -37,7 +38,8 @@ class App extends React.Component {
   }
 
   render() {
-    const {options, currentOption} = this.state
+    const {options, currentOption, leadingLanguage} = this.state
+    const switchLanguages = leadingLanguage === "English" ? "Spanish" : "English"
 
     return (
       <div className="App">
@@ -46,13 +48,18 @@ class App extends React.Component {
           options={options}
           setCurrentOption={(option) => this.setState({currentOption: option})}/>}
 
-        <div className="youtube-lyrics">
+        <div className={"youtube-lyrics" + currentOption ? "" : " hidden"}>
           {<EmbeddedYouTube
             embedId={currentOption ? currentOption.embedId : ''}/>}
 
           {<DisplayLyrics
             foreignLyrics={currentOption ? currentOption.foreignLyrics : ''}
-            englishLyrics={currentOption ? currentOption.englishLyrics : ''}/>}
+            englishLyrics={currentOption ? currentOption.englishLyrics : ''}
+            leadingLanguage={leadingLanguage}/>}
+
+          <button className={"button" + currentOption ? "" : " hidden"} onClick={() => {this.setState({leadingLanguage: switchLanguages})}}>
+            {"Show " + switchLanguages + " First"}
+            </button>
         </div>
 
       </div>

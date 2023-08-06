@@ -6,37 +6,36 @@ class DisplayLyrics extends React.Component {
         this.state = {}
     }
 
-    combineLyrics(englishLyrics, foreignLyrics) {
-        if (!englishLyrics || !foreignLyrics) {
-            return ""
+    getLyricBunches(englishLyrics, foreignLyrics, leadingLanguage) {
+        if(!englishLyrics || !foreignLyrics) {
+            return
         }
 
-        let englishLyricsArray = englishLyrics.split("\n")
-        let foriegnLyricsArray = foreignLyrics.split("\n")
+        const englishLyricsArray = englishLyrics.split("\n")
+        const foriegnLyricsArray = foreignLyrics.split("\n")
 
-        let lyricString = ""
-
-        for (let i = 0; i < englishLyricsArray.length; i++) {
-
-            if (i !== 0) {
-                lyricString += "\n"
-            }
-
-            lyricString += englishLyricsArray[i]
-            lyricString += "\n"
-            lyricString += foriegnLyricsArray[i]
-            lyricString += "\n"
-        }
-
-        return lyricString
+        //Default is the english first
+        const leadingLyricArr = leadingLanguage === "Spanish" ? foriegnLyricsArray : englishLyricsArray
+        const followingLyricArr = leadingLanguage === "Spanish" ? englishLyricsArray : foriegnLyricsArray
+        
+        return leadingLyricArr.map((leadingLyric, i) => {
+            // Only add lyric if there is a leading lyric and there is a lyric in the following lyric array
+            if (leadingLyric && i < followingLyricArr.length) {
+                return(
+                    <div className="lyric-bunch">
+                        <span className="lyric leading">{leadingLyric}</span>
+                        <span className="lyric following">{followingLyricArr[i]}</span>
+                    </div>
+                )
+            }})
     }
 
     render() {
-        const {englishLyrics, foreignLyrics} = this.props
-
+        const {englishLyrics, foreignLyrics, leadingLanguage} = this.props
+        
         return(
             <div className="display-lyrics">
-                {this.combineLyrics(englishLyrics, foreignLyrics)}
+                {this.getLyricBunches(englishLyrics, foreignLyrics, leadingLanguage)}
             </div>
         )
     }
