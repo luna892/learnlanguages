@@ -39,6 +39,7 @@ code {
   background-color:white;
   white-space: pre-wrap;
   flex-direction: column;
+  margin: 20px;
 }
 
 .lyric-bunch {
@@ -56,13 +57,15 @@ code {
   padding: 3px;
   height: 50px;
   width: 125px;
-}
-
-.hidden {
-  display: none;
+  margin: 20px;
 }
 
 .select-lyrics {
   width: 853px;
   margin:auto;
+  padding: 20px;
+}
+
+.video-responsive {
+  padding: 20px;
 }
