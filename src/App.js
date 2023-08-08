@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css';
 import EmbeddedYouTube from './components/EmbeddedYouTube';
 import DisplayLyrics from './components/DisplayLyrics';
-import Selector from './components/Selector';
+import SearchSelector from './components/SearchSelector';
 import spanishSongs from './LyricModels/SpanishSongs';
 
 class App extends React.Component {
@@ -44,7 +44,7 @@ class App extends React.Component {
     return (
       <div className="App">
 
-        {<Selector
+        {<SearchSelector
           options={options}
           setCurrentOption={(option) => this.setState({currentOption: option})}/>}
 

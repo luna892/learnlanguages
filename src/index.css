@@ -61,3 +61,8 @@ code {
 .hidden {
   display: none;
 }
+
+.select-lyrics {
+  width: 853px;
+  margin:auto;
+}

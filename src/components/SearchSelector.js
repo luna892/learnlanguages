@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-class Selector extends React.Component {
+class SearchSelector extends React.Component {
     constructor(props) {
         super(props)
 
@@ -15,9 +15,11 @@ class Selector extends React.Component {
             <Select className="select-lyrics"
                 options={options}
                 onChange={setCurrentOption}
+                isSearchable={true}
+                placeholder={"Select or Search for a song"}
             />
         )
     }
 }
 
-export default Selector;
+export default SearchSelector;
