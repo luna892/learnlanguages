@@ -40,6 +40,7 @@ code {
   white-space: pre-wrap;
   flex-direction: column;
   margin: 20px;
+  margin-top: 30px;
 }
 
 .lyric-bunch {
@@ -58,14 +59,16 @@ code {
   height: 50px;
   width: 125px;
   margin: 20px;
+  margin-top: 30px;
 }
 
 .select-lyrics {
   width: 853px;
   margin:auto;
-  padding: 20px;
+  padding-top: 20px;
 }
 
 .video-responsive {
   padding: 20px;
+  margin-top: 10px;
 }

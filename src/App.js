@@ -1,8 +1,8 @@
 import React from 'react'
+import Select from 'react-select';
 import './App.css';
 import EmbeddedYouTube from './components/EmbeddedYouTube';
 import DisplayLyrics from './components/DisplayLyrics';
-import SearchSelector from './components/SearchSelector';
 import spanishSongs from './LyricModels/SpanishSongs';
 
 class App extends React.Component {
@@ -40,22 +40,25 @@ class App extends React.Component {
   render() {
     const {options, currentOption, leadingLanguage} = this.state
     const switchLanguages = leadingLanguage === "English" ? "Spanish" : "English"
-    const optionChosen = Object.keys((currentOption || {})).length !== 0
+    const isOptionChosen = Object.keys(currentOption || {}).length !== 0
 
     return (
       <div className="App">
 
-        {<SearchSelector
-          options={options}
-          setCurrentOption={(option) => this.setState({currentOption: option})}/>}
+        <Select className="select-lyrics"
+              options={options}
+              onChange={(option) => this.setState({currentOption: option})}
+              isSearchable={true}
+              placeholder={"Select or Search for a song"}
+        />
 
-        {optionChosen && <div className="youtube-lyrics">
+        {isOptionChosen && <div className="youtube-lyrics">
           {<EmbeddedYouTube
-            embedId={currentOption ? currentOption.embedId : ''}/>}
+            embedId={currentOption.embedId}/>}
 
           {<DisplayLyrics
-            foreignLyrics={currentOption ? currentOption.foreignLyrics : ''}
-            englishLyrics={currentOption ? currentOption.englishLyrics : ''}
+            foreignLyrics={currentOption.foreignLyrics}
+            englishLyrics={currentOption.englishLyrics}
             leadingLanguage={leadingLanguage}/>}
 
           <button className="button" onClick={() => {this.setState({leadingLanguage: switchLanguages})}}>
