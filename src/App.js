@@ -1,74 +1,59 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react';
 import Select from 'react-select';
 import './App.css';
 import EmbeddedYouTube from './components/EmbeddedYouTube';
 import DisplayLyrics from './components/DisplayLyrics';
 import spanishSongs from './LyricModels/SpanishSongs';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
+function App() {
+  const [leadingLanguage, setLeadingLanguage] = useState('English');
+  const [currentOption, setCurrentOption] = useState({});
+  const followingLanguage = leadingLanguage === 'English' ? 'Spanish' : 'English';
+  const isOptionChosen = Object.keys(currentOption).length !== 0;
 
-    let options = this.getOptions()
+  const options = useMemo(() => {
+    return spanishSongs.map((spanishSong) => ({
+      value: spanishSong.embedId,
+      label: `${spanishSong.artist} - ${spanishSong.name}`,
+      embedId: spanishSong.embedId,
+      foreignLyrics: spanishSong.foreignLyrics,
+      englishLyrics: spanishSong.englishLyrics,
+    }));
+  }, []);
 
-    this.state = {
-      options: options,
-      leadingLanguage: 'English',
-      currentOption: {}
-    }
-  }
+  const handleOptionChange = (option) => {
+    setCurrentOption(option);
+  };
 
-  getOptions() {
-    let options = []
+  const handleLanguageChange = () => {
+    setLeadingLanguage(followingLanguage);
+  };
 
-    for (let i = 0; i < spanishSongs.length; i++) {
-      const spanishSong = spanishSongs[i];
-      let option = {
-        value: spanishSong.embedId,
-        label: spanishSong.artist + " - " + spanishSong.name,
-        embedId: spanishSong.embedId,
-        foreignLyrics: spanishSong.foreignLyrics,
-        englishLyrics: spanishSong.englishLyrics
-      }
+  return (
+    <div className="App">
+      <Select
+        className="select-lyrics"
+        options={options}
+        onChange={handleOptionChange}
+        isSearchable={true}
+        placeholder="Select or Search for a song"
+      />
 
-      options.push(option)
-    }
-
-    return options
-  }
-
-  render() {
-    const {options, currentOption, leadingLanguage} = this.state
-    const switchLanguages = leadingLanguage === "English" ? "Spanish" : "English"
-    const isOptionChosen = Object.keys(currentOption || {}).length !== 0
-
-    return (
-      <div className="App">
-
-        <Select className="select-lyrics"
-              options={options}
-              onChange={(option) => this.setState({currentOption: option})}
-              isSearchable={true}
-              placeholder={"Select or Search for a song"}
-        />
-
-        {isOptionChosen && <div className="youtube-lyrics">
-          {<EmbeddedYouTube
-            embedId={currentOption.embedId}/>}
-
-          {<DisplayLyrics
+      {isOptionChosen && (
+        <div className="youtube-lyrics">
+          <EmbeddedYouTube embedId={currentOption.embedId} />
+          <DisplayLyrics
             foreignLyrics={currentOption.foreignLyrics}
             englishLyrics={currentOption.englishLyrics}
-            leadingLanguage={leadingLanguage}/>}
-
-          <button className="button" onClick={() => {this.setState({leadingLanguage: switchLanguages})}}>
-            {"Show " + switchLanguages + " First"}
-            </button>
-        </div>}
-
-      </div>
-    )
-  }
+            leadingLanguage={leadingLanguage}
+          />
+          <button className="button" onClick={handleLanguageChange}>
+            {`Show ${followingLanguage} First`}
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App;
